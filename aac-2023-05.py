@@ -5,11 +5,12 @@ def read_text(file_path):
     with open(file_path, "r") as fp:
         return fp.read().splitlines()
 
+# for part 1, returns list of seeds and instructions
 def parse_initial_list(lst):
-    instructions_dict = {}
     # deal with seeds
     seeds_list = lst[0].split(" ")[1:]
 
+    instructions_dict = {}
     # deal with mapping
     map_instructions = []
     step = 0
@@ -28,7 +29,8 @@ def parse_initial_list(lst):
     # pprint.pprint(seeds_list)
     return seeds_list, instructions_dict
 
-def create_mapping_table(seeds_list, instructions_dict):
+# for part 1, takes in (seeds_list, instructions_dict) and returns a list containing the final result of every seed
+def get_part_one_result_list(seeds_list, instructions_dict):
     total_mapping_dict = {}
     mapping_dict = {}
     for i in range(1,8):
@@ -53,18 +55,17 @@ def create_mapping_table(seeds_list, instructions_dict):
         # print(f"Result: {seed_int}")
         result.append(seed_int)
     # print(result)
-    return min(result)
+    return result
 
 if __name__ == "__main__":
-    print("Starting script for aac-2023-4")
+    print("Starting script for aac-2023-5")
     parser = argparse.ArgumentParser(description="A")
     parser.add_argument("file", help="Path to .txt")
     args = parser.parse_args()
     input_list = read_text(args.file)
     # print(input_list)
+
+    # part 1
     seeds_list, instructions_dict = parse_initial_list(input_list)
-    pprint.pprint(instructions_dict)
-    seeds_list = []
-    for i in range(1000000):
-        seeds_list.append(432563865+i)
-    print(create_mapping_table(seeds_list, instructions_dict))
+    part1_result = get_part_one_result_list(seeds_list, instructions_dict)
+    print("Part 1 result:", min(part1_result))
