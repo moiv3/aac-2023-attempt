@@ -5,8 +5,9 @@ def read_list(file_path):
     with open(file_path, "r") as fp:
         return fp.read().splitlines()
 
-
+# function for part one
 def get_twofold_expansion_distance(input_list):
+    # transpose and expand by 2-fold
     input_list_first_expand = []
     for line in input_list:
         if all([char == "." for char in line]):
@@ -26,28 +27,30 @@ def get_twofold_expansion_distance(input_list):
             input_list_second_expand.append(line)
     # print(input_list_second_expand)
 
+    # get all distances by a 2-layer for loop
     y = len(input_list_second_expand)
     x = len(input_list_second_expand[0])
-    hashtag_list = []
+    hashmark_list = []
     for j in range(y):
         for i in range(x):
             if input_list_second_expand[j][i] == "#":
-                hashtag_list.append((j, i))
-    # print(hashtag_list)
+                hashmark_list.append((j, i))
+    # print(hashmark_list)
 
     distance_list = []
-    hashtags = len(hashtag_list)
-    for i in range(hashtags-1):
-        for j in range(i+1, hashtags):
-            distance = abs(hashtag_list[j][0] - hashtag_list[i][0]) + abs(hashtag_list[j][1] - hashtag_list[i][1])
+    hashmarks = len(hashmark_list)
+    for i in range(hashmarks-1):
+        for j in range(i+1, hashmarks):
+            distance = abs(hashmark_list[j][0] - hashmark_list[i][0]) + abs(hashmark_list[j][1] - hashmark_list[i][1])
             distance_list.append(distance)
     # print(distance_list)
     # print(sum(distance_list))
 
     return sum(distance_list)
 
-
+# part 2 function
 def get_n_fold_expansion_distance(input_list, multiplier):
+    # this time we only get the "indexes" for columns/rows which are all "."
     expand_list_horizontal = []
     for idx, line in enumerate(input_list):
         if all([char == "." for char in line]):
@@ -63,23 +66,25 @@ def get_n_fold_expansion_distance(input_list, multiplier):
 
     y = len(input_list)
     x = len(input_list[0])
-    hashtag_list = []
+    hashmark_list = []
     for j in range(y):
         for i in range(x):
             if input_list[j][i] == "#":
-                hashtag_list.append((j, i))
-    # print(hashtag_list)
+                hashmark_list.append((j, i))
+    # print(hashmark_list)
+
+    # this time we add the multiplier whenever crossing the hashmark_list when calculating distances
 
     distance_list = []
-    hashtags = len(hashtag_list)
-    for i in range(hashtags-1):
-        for j in range(i+1, hashtags):
-            distance = abs(hashtag_list[j][0] - hashtag_list[i][0]) + abs(hashtag_list[j][1] - hashtag_list[i][1])
-            min_x = min(hashtag_list[j][0], hashtag_list[i][0])
-            max_x = max(hashtag_list[j][0], hashtag_list[i][0])
+    hashmarks = len(hashmark_list)
+    for i in range(hashmarks-1):
+        for j in range(i+1, hashmarks):
+            distance = abs(hashmark_list[j][0] - hashmark_list[i][0]) + abs(hashmark_list[j][1] - hashmark_list[i][1])
+            min_x = min(hashmark_list[j][0], hashmark_list[i][0])
+            max_x = max(hashmark_list[j][0], hashmark_list[i][0])
             distance_expand_x = sum([multiplier-1 for i in range(min_x+1, max_x) if i in expand_list_horizontal])
-            min_y = min(hashtag_list[j][1], hashtag_list[i][1])
-            max_y = max(hashtag_list[j][1], hashtag_list[i][1])
+            min_y = min(hashmark_list[j][1], hashmark_list[i][1])
+            max_y = max(hashmark_list[j][1], hashmark_list[i][1])
             distance_expand_y = sum([multiplier-1 for i in range(min_y+1, max_y) if i in expand_list_vertical])
             distance_list.append(distance+distance_expand_x+distance_expand_y)
     # print(distance_list)
