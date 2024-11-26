@@ -138,3 +138,19 @@ if __name__ == "__main__":
     result_part_two: dict = check_reflection_part_two(puzzle_dict)
     print(result_part_two)
     print(sum(result_part_two.values()))
+
+    # test function
+    input_list = read_list("aac-2023-13-input-ex1.txt")
+
+    input_list_by_puzzle = reduce(split_puzzles, input_list, [[]])
+
+    puzzle_dict: dict = {}
+
+    for idx, item in enumerate(input_list_by_puzzle):
+        puzzle_dict[idx] = item
+    result_part_one: dict = check_reflection_part_one(puzzle_dict)
+    result_part_two: dict = check_reflection_part_two(puzzle_dict)
+    sum_part_one = sum(result_part_one.values())
+    assert sum_part_one == 1410, f"Incorrect result was: {sum_part_one}, expected 1410"
+    sum_part_two = sum(result_part_two.values())
+    assert sum_part_two == 2306, f"Incorrect result was: {sum_part_two}, expected 2306"
