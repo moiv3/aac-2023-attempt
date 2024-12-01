@@ -20,7 +20,7 @@ def hash_string(string: str) -> int:
     return init_value
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser("AAC-2023-Day13")
+    parser = argparse.ArgumentParser("AAC-2023-Day15")
     parser.add_argument("file", help="path to the txt file")
     args = parser.parse_args()
     input_list = parse_list(read_list_q15(args.file))
