@@ -85,7 +85,7 @@ if __name__ == "__main__":
     end_x = x - 1
     end_y = y - 1
 
-    # initialize data structures (also add comments about what they do)
+    # initialize data structures
     # 排隊中待處理的states, 依照cost是多少分類
     # initialization: state_queues_by_cost.setdefault(new_cost, []).append(state)
     # .setdefault method is a dict method, looks useful: https://www.w3schools.com/python/ref_dictionary_setdefault.asp
