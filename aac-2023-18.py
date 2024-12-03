@@ -88,7 +88,7 @@ def get_lake_area_part_two(input_list):
     print("Result:", result)
     
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser("AAC-2023-Day17")
+    parser = argparse.ArgumentParser("AAC-2023-Day18")
     parser.add_argument("file", help="path to the txt file")
     args = parser.parse_args()
     input_list = read_list(args.file)
