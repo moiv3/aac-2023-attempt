@@ -1,6 +1,7 @@
 import argparse
 import pprint
 import random
+import math
 
 def read_list(filepath):
     with open(filepath, "r") as fp:
@@ -85,7 +86,7 @@ if __name__ == "__main__":
 
     monte_carlo_dict = {}
 
-    for i in range(200):
+    for i in range(300):
         # print(i)
         from_node, to_node = random.sample(unfixed_graph_keys_list, 2)
         # print(from_node,to_node)
@@ -113,9 +114,9 @@ if __name__ == "__main__":
     for i in range(6):
         fixed_graph[sorted_monte_carlo_dict[i][0][0]].remove(sorted_monte_carlo_dict[i][0][1])
     
-    # pprint.pprint(fixed_graph)
-
-    for tries in range(20):
+    # try a set number of times, take the highest two values and multiply them
+    result_set = set()
+    for tries in range(10):
         start_node = random.choice(unfixed_graph_keys_list)
         node_set = set()
         node_set.add(start_node)
@@ -132,3 +133,7 @@ if __name__ == "__main__":
                     checked.append(node)
                     queue.append(node)
         print(len(node_set))
+        result_set.add(len(node_set))
+
+    print("Part one:", math.prod(result_set))
+    
