@@ -1,6 +1,6 @@
 import argparse
 import pprint
-
+from functools import cache
 
 def read_list(file_path):
     with open(file_path, "r") as fp:
@@ -121,6 +121,36 @@ def brute_force_function(input_list, input_seq):
             match_counter += 1
     return match_counter
 
+# For part two I followed the logic from reddit user Domy__. His/her code as follows:
+# https://github.com/Domyy95/Challenges/blob/master/2023-12-Advent-of-code/12.py
+
+@cache
+def suggested_ans(sequence, to_match):
+    result = 0
+
+    if not sequence:
+        if not to_match:
+            return 1
+        else:
+            return 0
+    elif not to_match:
+        if all(i in (".", "?") for i in sequence):
+            return 1
+        else:
+            return 0        
+   
+    if sequence[0] in (".", "?"):
+        result += suggested_ans(sequence[1:], to_match)
+    if sequence[0] in ("#", "?"):
+        if (
+            len(sequence) >= to_match[0] and 
+            all((i in ("#", "?") for i in sequence[:to_match[0]])) and
+            (len(sequence) == to_match[0] or sequence[to_match[0]] != "#")
+        ):
+            result += suggested_ans(sequence[to_match[0]+1:], to_match[1:])
+    
+    return result
+        
 if __name__ == "__main__":
     parser = argparse.ArgumentParser("AAC-2023-Day11")
     parser.add_argument("file", help="path to the .txt file")
@@ -129,15 +159,24 @@ if __name__ == "__main__":
 
     input_list_parsed = parse_lines(input_list)
 
-    result = {}
-    for idx, item in enumerate(input_list_parsed):
-        # print(tuple(item))
-        new_x = item[0]+item[0]
-        new_y = item[1]+item[1]
-        # result[idx+1] = (brute_force_function(item[0], item[1]))        result[idx+1] = (brute_force_function(item[0], item[1]))
-        result[idx+1] = (brute_force_function(new_x, new_y))
-    pprint.pprint(result)
-    print(sum(result.values()))
+
+    result = 0
+    for item in input_list_parsed:
+        print("?".join([item[0]]*5), item[1]*5)
+        sub_result = suggested_ans("?".join([item[0]]*5), tuple(item[1]*5))
+        print(sub_result)
+        result += sub_result
+    print(result)
+
+    # result = {}
+    # for idx, item in enumerate(input_list_parsed):
+    #     # print(tuple(item))
+    #     new_x = item[0]
+    #     new_y = item[1]
+    #     # result[idx+1] = (brute_force_function(item[0], item[1]))        result[idx+1] = (brute_force_function(item[0], item[1]))
+    #     result[idx+1] = (brute_force_function(new_x, new_y))
+    # pprint.pprint(result)
+    # print(sum(result.values()))
 
     # input_list = ".#.?.?.?##??#??#??#?"
     # input_seq = [1,1,1,7,5]
@@ -146,3 +185,4 @@ if __name__ == "__main__":
 
     # output = 8926, too high
     # output = 7506, just right!
+
